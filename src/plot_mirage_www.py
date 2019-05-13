@@ -15,7 +15,6 @@ import statistics
 
 import matplotlib
 from matplotlib import pyplot
-from clib import tango
 
 import numpy as np
 import scipy.stats
@@ -121,8 +120,8 @@ def plot(folder):
                 edgecolor = COLORS[ichunk - 1][2]
                 x = chunks[ichunk - 1]
                 for ax in axs:
-                    ax.barh(y, [width], left=x, height=height, color=color, edgecolor=edgecolor, linewidth=0.2)
-            ax2.errorbar(chunks[-1], y + height / 2, xerr=h, ecolor="black")
+                    ax.barh(y + height / 2, [width], left=x, height=height, color=color, edgecolor=edgecolor, linewidth=0.2)
+            ax2.errorbar(chunks[-1], y + height / 2, xerr=h, ecolor="black", capsize=2, capthick=1, elinewidth=1)
         print(h)
         print(chunks)
         # for ax in axs:

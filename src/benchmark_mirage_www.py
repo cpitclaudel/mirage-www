@@ -5,6 +5,8 @@ from time import strftime, sleep
 import signal
 import json
 import urllib
+import urllib.error
+import urllib.request
 
 from selenium import webdriver
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
