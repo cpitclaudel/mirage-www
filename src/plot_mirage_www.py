@@ -77,7 +77,8 @@ def plot(folder):
     bars = {tuple(config.split("+")): stats([w["real"] for w in wget_times])
             for (config, wget_times) in read_times(folder).items()}
 
-    from pprint import pprint; pprint(bars)
+    # Uncomment this to print the raw data for the bars:
+    # from pprint import pprint; pprint(bars)
     fig = pyplot.gcf()
     fig.set_size_inches((4, 0.7))
 
@@ -106,8 +107,8 @@ def plot(folder):
     height = 0.5
     for idx, (label, config) in enumerate(INTERESTING_CONFIGS):
         avg, h = bars[config]
-        print(label, avg)
-        d = (avg - chunks[-1]) / chunks[-1]
+        print("{}: {:.2f}s".format(label, avg))
+        d = (avg - chunks[-1]) / chunks[-1] if idx > 0 else None
         delta = " ({}{:.1%})".format("+" if d >= 0 else "", d) if idx > 0 else ""
         # delta = delta.replace("%", "\\%")
         chunks.append(avg)
@@ -122,8 +123,8 @@ def plot(folder):
                 for ax in axs:
                     ax.barh(y + height / 2, [width], left=x, height=height, color=color, edgecolor=edgecolor, linewidth=0.2)
             ax2.errorbar(chunks[-1], y + height / 2, xerr=h, ecolor="black", capsize=2, capthick=1, elinewidth=1)
-        print(h)
-        print(chunks)
+        # print(h)
+        # print(chunks)
         # for ax in axs:
         #     ax.errorbar(avg, - idx + 0.4, xerr=stdev, color="black")
 
@@ -131,7 +132,7 @@ def plot(folder):
         ax.set_ylim((1 - len(INTERESTING_CONFIGS)) * height * 1.2, height)
     ax2.xaxis.set_ticks_position('bottom')
     ax2.tick_params('both', length=2, width=1, which='major')
-    ax2.xaxis.set_major_formatter(matplotlib.ticker.FormatStrFormatter('%.2f s'))
+    ax2.xaxis.set_major_formatter(matplotlib.ticker.FormatStrFormatter('%.2fs'))
     for tick in ax2.xaxis.get_major_ticks():
         # import pdb; pdb.set_trace()
         tick.label.set_fontsize(6)
